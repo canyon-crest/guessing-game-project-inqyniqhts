@@ -58,10 +58,15 @@ function reset(){
 
 function updateScore(){
     scoreArr.push(score);
+    scoreArr.sort((a,b)=>a-b);  
     wins.textContent = "Total wins: " +scoreArr.length;
+    let lb = document.getElementsByTagName("leaderboard");
     let sum = 0;
     for(let i=0; i<scoreArr.length; i++){
         sum+= scoreArr[i]
+        if(i<lb.length){
+            lb[i].textContent = scoreArr[i];
+        }
     }
     let avg = sum/scoreArr.length;
     avgScore.textContent = "Average Score: " + avg.toFixed(2);
