@@ -1,6 +1,7 @@
 // add javascript here
 let level, answer, score;
 const levelArr = document.getElementsByName("level");
+const scoreArr = []
 
 //event listeners
 playBtn.addEventListener("click",play);
@@ -10,6 +11,7 @@ function play(){
     score = 0; // sets the score to 0 every new game
     playBtn.disabled= true;
     guessBtn.disabled=false;
+    guess.disabled=false;
     for(let i=0; i<levelArr.length;i++){
         if(levelArr[i].checked){
             level = levelArr[i].value;
@@ -36,7 +38,9 @@ function makeGuess(){
 
     }
     else{
-        msg.textContent = "You got it! It took you " + score +" tries to get the answer.";
+        msg.textContent = "You got it! It took you " + score +" tries to get the answer. Press play to play again.";
+        reset();
+        updateScore();
     }
 
 }
@@ -47,4 +51,19 @@ function reset(){
     guess.value = "";
     guess.placeholder="";
     playBtn.disabled = false;
+    for(let i=0; i<levelArr.length; i++){
+        levelArr[i].disabled = false;
+    }
+}
+
+function updateScore(){
+    scoreArr.push(score);
+    wins.textContent = "Total wins: " +scoreArr.length;
+    let sum = 0;
+    for(let i=0; i<scoreArr.length; i++){
+        sum+= scoreArr[i]
+    }
+    let avg = sum/scoreArr.length;
+    avgScore.textContent = "Average Score: " + avg.toFixed(2);
+
 }
