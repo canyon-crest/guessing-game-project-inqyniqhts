@@ -2,6 +2,7 @@
 let level, answer, score;
 const levelArr = document.getElementsByName("level");
 const scoreArr = []
+Date.textContent = time();
 
 //event listeners
 playBtn.addEventListener("click",play);
@@ -71,4 +72,10 @@ function updateScore(){
     let avg = sum/scoreArr.length;
     avgScore.textContent = "Average Score: " + avg.toFixed(2);
 
+}
+function time(){
+    let d = new Date();
+    //concatenate a string with all the data info
+    d = d.getFullYear + " " +d.getTime();
+    return d;
 }
