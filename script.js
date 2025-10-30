@@ -15,7 +15,7 @@ function play(){
         }
         levelArr[i].disabled = true;
     }
-    msg.textcontent = "Guess a number from 1-"+level;
-    answer = Math.floor(Math.random()*level+1);
+    msg.textContent = "Guess a number from 1-"+level;
+    answer = Math.floor((Math.random()*level)+1);
     guess.placeholder = answer;
 }
