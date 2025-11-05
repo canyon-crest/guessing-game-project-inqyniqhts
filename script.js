@@ -4,6 +4,8 @@ let scoreArr = [];
 let gameTimes = [];
 let userName = "";
 
+
+//variable dump lol:
 const playBtn = document.getElementById("playBtn");
 const guessBtn = document.getElementById("guessBtn");
 const giveUpBtn = document.getElementById("giveUp");
@@ -29,22 +31,22 @@ function getTimeString(){
     if(day % 10 === 1 && day !== 11) suffix = "st";
     else if(day % 10 === 2 && day !== 12) suffix = "nd";
     else if(day % 10 === 3 && day !== 13) suffix = "rd";
-    let h = d.getHours().toString().padStart(2,'0');
-    let m = d.getMinutes().toString().padStart(2,'0');
-    let s = d.getSeconds().toString().padStart(2,'0');
+    let h = d.getHours().toString().padStart(2,"0");
+    let m = d.getMinutes().toString().padStart(2,"0")
+    let s = d.getSeconds().toString().padStart(2,"0");
     return `${months[d.getMonth()]} ${day}${suffix}, ${d.getFullYear()} ${h}:${m}:${s}`;
 }
 setInterval(()=>{ dateEl.textContent = getTimeString(); }, 1000);
 
 // Submit username
 submitBtn.addEventListener("click", ()=>{
-    let name = userInput.value.trim();
-    if(name === ""){
-        alert("Please enter your name!");
+    let name = userInput.value();
+    if(name == ""){
+        alert("Please enter your name, not a space!!!");
         return;
     }
     userName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-    msg.textContent = `Hello ${userName}, select a level and press Play!`;
+    msg.textContent = "Hello ${userName}, select a level and press Play :D!";
 });
 
 // Start a game
@@ -87,28 +89,26 @@ function makeGuess(){
 
     if(diff === 0){
         let roundTime = (new Date().getTime() - roundStartTime)/1000;
-        msg.textContent = `${userName}, you got it! Score: ${score}. Time: ${roundTime.toFixed(1)}s`;
+        msg.textContent = `${userName}, you got it yay! Score: ${score}. Time: ${roundTime.toFixed(1)}s`;
         giveFeedback(score);
         storeGame(roundTime);
         reset();
         return;
-    } else if(diff <= 2) hint += " 🔥 Hot!";
-    else if(diff <= 5) hint += " 🌡️ Warm";
-    else hint += " ❄️ Cold";
+    } else if(diff <= 2) hint += " 🔥 Hot!!!";
+    else if(diff <= 5) hint += " Warm : 0";
+    else hint += " its Cold";
 
     msg.textContent = `${userName}, ${hint}`;
 }
 
-// Give up button
 giveUpBtn.addEventListener("click", ()=>{
-    score = level; // worst score
-    msg.textContent = `${userName}, you gave up! The answer was ${answer}. Score: ${score}`;
+    score = level; 
+    msg.textContent = `${userName}, you gave up boohoo... The answer was ${answer}. Score: ${score}`;
     let roundTime = (new Date().getTime() - roundStartTime)/1000;
     storeGame(roundTime);
     reset();
 });
 
-// Reset for next round
 function reset(){
     guessBtn.disabled = true;
     guess.disabled = true;
