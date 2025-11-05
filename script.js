@@ -73,7 +73,6 @@ function play(){
     msg.textContent = `${userName}, guess a number from 1 to ${level}`;
 }
 
-// Handle guesses
 guessBtn.addEventListener("click", makeGuess);
 function makeGuess(){
     let userGuess = parseInt(guess.value);
@@ -84,8 +83,8 @@ function makeGuess(){
     score++;
     let diff = Math.abs(userGuess - answer);
     let hint = "";
-    if(userGuess > answer) hint = "Too high!";
-    else if(userGuess < answer) hint = "Too low!";
+    if(userGuess > answer) hint = "Too high :0";
+    else if(userGuess < answer) hint = "Too low :(!";
 
     if(diff === 0){
         let roundTime = (new Date().getTime() - roundStartTime)/1000;
@@ -152,6 +151,6 @@ function giveFeedback(score){
     let feedback = "";
     if(score <= level/3) feedback = "Excellent!";
     else if(score <= level*2/3) feedback = "OK!";
-    else feedback = "Needs improvement!";
+    else feedback = "Needs improvemen and you could solve faster.";
     msg.textContent += ` ${feedback}`;
 }
