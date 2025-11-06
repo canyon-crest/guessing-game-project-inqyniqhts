@@ -133,7 +133,7 @@ function storeGame(time){
 let wins = document.getElementById("wins");
 let avgScore = document.getElementById("avgScore");
 
-
+//lb means leaderboard btw
 
 function updateScore(){
     scoreArr.sort((a,b)=>a-b);
@@ -143,7 +143,7 @@ function updateScore(){
     }
     wins.textContent = "Total wins:" + scoreArr.length;
     let sum = scoreArr.reduce((a,b)=>a+b,0);
-    avgScore.textContent = `Average Score: ${(sum/scoreArr.length).toFixed(2)}`;
+    avgScore.textContent = "Average Score:" + (sum/scoreArr.length).toFixed(2);
 }
 
 let avgTime = document.getElementById("avgTime");
