@@ -28,12 +28,8 @@ function getTimeString(){
 
 submitBtn.addEventListener("click", ()=>{
     let name1 = userInput.value;
-    if(name1 == ""){
-        alert("Please enter your name, not a space!!!");
-        return;
-    }
     userName = name1.charAt(0).toUpperCase() + name1.slice(1).toLowerCase();
-    msg.textContent = "Hello ${userName}, select a level and press Play :D!";
+    msg.textContent = "Hello "+userName+", select a level and press Play :D!";
 });
 const playBtn = document.getElementById("playBtn");
 
