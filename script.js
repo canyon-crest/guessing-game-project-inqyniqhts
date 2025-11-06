@@ -6,50 +6,40 @@ let userName = "";
 
 
 //variable dump lol:
-const playBtn = document.getElementById("playBtn");
 const guessBtn = document.getElementById("guessBtn");
 const giveUpBtn = document.getElementById("giveUp");
-const guess = document.getElementById("guess");
 const msg = document.getElementById("msg");
-const wins = document.getElementById("wins");
-const avgScore = document.getElementById("avgScore");
-const avgTime = document.getElementById("avgTime");
-const fastestTime = document.getElementById("fastestTime");
-const dateEl = document.getElementById("date");
 const submitBtn = document.getElementById("submit");
 const userInput = document.getElementById("userName");
 
 guessBtn.disabled = true;
 giveUpBtn.disabled = true;
 
-// Update date and time every second
 function getTimeString(){
     let d = new Date();
-    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    let months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     let day = d.getDate();
-    let suffix = "th";
-    if(day % 10 === 1 && day !== 11) suffix = "st";
-    else if(day % 10 === 2 && day !== 12) suffix = "nd";
-    else if(day % 10 === 3 && day !== 13) suffix = "rd";
-    let h = d.getHours().toString().padStart(2,"0");
-    let m = d.getMinutes().toString().padStart(2,"0")
-    let s = d.getSeconds().toString().padStart(2,"0");
+    let ending = "th";
+    if(day % 10 == 1 && day !== 11) ending = "st";
+    else if(day % 10 == 2 && day !== 12) ending = "nd";
+    else if(day % 10 == 3 && day !== 13) ending = "rd";
     return `${months[d.getMonth()]} ${day}${suffix}, ${d.getFullYear()} ${h}:${m}:${s}`;
 }
-setInterval(()=>{ dateEl.textContent = getTimeString(); }, 1000);
 
-// Submit username
 submitBtn.addEventListener("click", ()=>{
-    let name = userInput.value();
-    if(name == ""){
+    let name1 = userInput.value;
+    if(name1 == ""){
         alert("Please enter your name, not a space!!!");
         return;
     }
-    userName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    userName = name1.charAt(0).toUpperCase() + name1.slice(1).toLowerCase();
     msg.textContent = "Hello ${userName}, select a level and press Play :D!";
 });
+const playBtn = document.getElementById("playBtn");
 
-// Start a game
+const guess = document.getElementById("guess");
+
+
 playBtn.addEventListener("click", play);
 function play(){
     if(userName === ""){
@@ -93,7 +83,7 @@ function makeGuess(){
         storeGame(roundTime);
         reset();
         return;
-    } else if(diff <= 2) hint += " 🔥 Hot!!!";
+    } else if(diff <= 2) hint += " Hot!!!";
     else if(diff <= 5) hint += " Warm : 0";
     else hint += " its Cold";
 
@@ -119,15 +109,17 @@ function reset(){
     }
 }
 
-// Store results
 function storeGame(time){
     scoreArr.push(score);
     gameTimes.push(time);
     updateScore();
     updateTimeStats();
 }
+const wins = document.getElementById("wins");
+const avgScore = document.getElementById("avgScore");
 
-// Update leaderboard and scores
+
+
 function updateScore(){
     scoreArr.sort((a,b)=>a-b);
     let lb = document.getElementsByName("leaderboard");
@@ -139,18 +131,20 @@ function updateScore(){
     avgScore.textContent = `Average Score: ${(sum/scoreArr.length).toFixed(2)}`;
 }
 
-// Update times
+const avgTime = document.getElementById("avgTime");
+const fastestTime = document.getElementById("fastestTime");
+
 function updateTimeStats(){
     let sum = gameTimes.reduce((a,b)=>a+b,0);
     avgTime.textContent = `Average Time: ${(sum/gameTimes.length).toFixed(1)}s`;
     fastestTime.textContent = `Fastest Game: ${Math.min(...gameTimes).toFixed(1)}s`;
 }
 
-// Score feedback
+
 function giveFeedback(score){
     let feedback = "";
     if(score <= level/3) feedback = "Excellent!";
     else if(score <= level*2/3) feedback = "OK!";
-    else feedback = "Needs improvemen and you could solve faster.";
+    else feedback = "Needs improvement and you could solve faster.";
     msg.textContent += ` ${feedback}`;
 }
