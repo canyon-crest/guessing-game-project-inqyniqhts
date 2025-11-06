@@ -1,21 +1,24 @@
-let level, answer, score, roundStartTime;
+let level;
+let answer; 
+let score; 
+let roundStartingTime;
 let levelArr = document.getElementsByName("level");
 let scoreArr = [];
 let gameTimes = [];
 
 
-const guessBtn = document.getElementById("guessBtn");
-const giveUpBtn = document.getElementById("giveUp");
-const msg = document.getElementById("msg");
-const submitBtn = document.getElementById("submit");
-const userInput = document.getElementById("userName");
+let guessBtn = document.getElementById("guessBtn");
+let giveUpBtn = document.getElementById("giveUp");
+let msg = document.getElementById("msg");
+let submitBtn = document.getElementById("submit");
+let userInput = document.getElementById("userName");
 
 guessBtn.disabled = true;
 giveUpBtn.disabled = true;
 
 function getTimeString(){
     let d = new Date();
-    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    let months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     let day = d.getDate();
     let ending = "th";
     if(day % 10 == 1 && day !== 11){
@@ -36,15 +39,15 @@ submitBtn.addEventListener("click", ()=>{
     userName = name1.charAt(0).toUpperCase() + name1.slice(1).toLowerCase();
     msg.textContent = "Hello "+userName+", select a level and press Play :D!";
 });
-const playBtn = document.getElementById("playBtn");
+let playBtn = document.getElementById("playBtn");
 
-const guess = document.getElementById("guess");
+let guess = document.getElementById("guess");
 
 
 playBtn.addEventListener("click", play);
 function play(){
     score = 0;
-    roundStartTime = new Date().getTime();
+    roundStartingTime = new Date().getTime();
     playBtn.disabled = true;
     guessBtn.disabled = false;
     guess.disabled = false;
@@ -64,7 +67,7 @@ guessBtn.addEventListener("click", makeGuess);
 function makeGuess(){
     let userGuess = parseInt(guess.value);
     if(isNaN(userGuess) || userGuess <1 || userGuess>level){
-        msg.textContent = `${userName}, enter a valid number from 1 to ${level}`;
+        msg.textContent = userName+", can you enter a valid number from 1 to "+level+"?";
         return;
     }
     score++;
@@ -73,25 +76,28 @@ function makeGuess(){
     if(userGuess > answer) hint = "Too high :0";
     else if(userGuess < answer) hint = "Too low :(!";
 
-    if(diff === 0){
-        let roundTime = (new Date().getTime() - roundStartTime)/1000;
-        msg.textContent = userName+ ",you got it yay! Score:"+ score+". Time: "+roundTime.toFixed(1);
+    if(diff == 0){
+        let totalRoundTime = (new Date().getTime() - roundStartingTime)/1000;
+        msg.textContent = userName+ ",you got it yay! Score:"+ score+". Time: "+totalRoundTime.toFixed(1);
         giveFeedback(score);
-        storeGame(roundTime);
+        storeGame(totalRoundTime);
         reset();
         return;
-    } else if(diff <= 2) hint += " Hot!!!";
-    else if(diff <= 5) hint += " Warm : 0";
-    else hint += " its Cold";
+    } else if(diff <= 2){
+        hint += " Hot!!!";}
+    else if(diff <= 5){
+        hint += " Warm : 0";}
+    else{ 
+        hint += " its Cold";}
 
-    msg.textContent = `${userName}, ${hint}`;
+    msg.textContent = userName + hint;
 }
 
 giveUpBtn.addEventListener("click", ()=>{
     score = level; 
-    msg.textContent = `${userName}, you gave up boohoo... The answer was ${answer}. Score: ${score}`;
-    let roundTime = (new Date().getTime() - roundStartTime)/1000;
-    storeGame(roundTime);
+    msg.textContent = userName+", you gave up boohoo... The answer was "+answer+". Score: "+score;
+    let totalRoundTime = (new Date().getTime() - roundStartTime)/1000;
+    storeGame(totalRoundTime);
     reset();
 });
 
@@ -112,8 +118,8 @@ function storeGame(time){
     updateScore();
     updateTimeStats();
 }
-const wins = document.getElementById("wins");
-const avgScore = document.getElementById("avgScore");
+let wins = document.getElementById("wins");
+let avgScore = document.getElementById("avgScore");
 
 
 
@@ -128,13 +134,13 @@ function updateScore(){
     avgScore.textContent = `Average Score: ${(sum/scoreArr.length).toFixed(2)}`;
 }
 
-const avgTime = document.getElementById("avgTime");
-const fastestTime = document.getElementById("fastestTime");
+let avgTime = document.getElementById("avgTime");
+let fastestTime = document.getElementById("fastestTime");
 
 function updateTimeStats(){
     let sum = gameTimes.reduce((a,b)=>a+b,0);
-    avgTime.textContent = `Average Time: ${(sum/gameTimes.length).toFixed(1)}s`;
-    fastestTime.textContent = `Fastest Game: ${Math.min(...gameTimes).toFixed(1)}s`;
+    avgTime.textContent = "Your Average Time is: "+(sum/gameTimes.length).toFixed(1);
+    fastestTime.textContent = "Fastest Game:"+ Math.min(...gameTimes).toFixed(1);
 }
 
 
@@ -143,5 +149,5 @@ function giveFeedback(score){
     if(score <= level/3) feedback = "Excellent!";
     else if(score <= level*2/3) feedback = "OK!";
     else feedback = "Needs improvement and you could solve faster.";
-    msg.textContent += ` ${feedback}`;
+    msg.textContent += feedback;
 }
