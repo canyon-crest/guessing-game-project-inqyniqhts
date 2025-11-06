@@ -2,10 +2,8 @@ let level, answer, score, roundStartTime;
 let levelArr = document.getElementsByName("level");
 let scoreArr = [];
 let gameTimes = [];
-let userName = "";
 
 
-//variable dump lol:
 const guessBtn = document.getElementById("guessBtn");
 const giveUpBtn = document.getElementById("giveUp");
 const msg = document.getElementById("msg");
@@ -17,17 +15,24 @@ giveUpBtn.disabled = true;
 
 function getTimeString(){
     let d = new Date();
-    let months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     let day = d.getDate();
     let ending = "th";
-    if(day % 10 == 1 && day !== 11) ending = "st";
-    else if(day % 10 == 2 && day !== 12) ending = "nd";
-    else if(day % 10 == 3 && day !== 13) ending = "rd";
+    if(day % 10 == 1 && day !== 11){
+        ending = "st";}
+    else if(day % 10 == 2 && day !== 12){
+        ending = "nd";}
+    else if(day % 10 == 3 && day !== 13){
+        ending = "rd";}
     return `${months[d.getMonth()]} ${day}${suffix}, ${d.getFullYear()} ${h}:${m}:${s}`;
 }
 
 submitBtn.addEventListener("click", ()=>{
     let name1 = userInput.value;
+    if(name1 == ""){
+        msg.textContent = "Please enter your name, not a space!!!";
+        return;
+    }
     userName = name1.charAt(0).toUpperCase() + name1.slice(1).toLowerCase();
     msg.textContent = "Hello "+userName+", select a level and press Play :D!";
 });
@@ -38,10 +43,6 @@ const guess = document.getElementById("guess");
 
 playBtn.addEventListener("click", play);
 function play(){
-    if(userName === ""){
-        alert("Enter your name first!");
-        return;
-    }
     score = 0;
     roundStartTime = new Date().getTime();
     playBtn.disabled = true;
@@ -56,7 +57,7 @@ function play(){
     }
 
     answer = Math.floor(Math.random()*level)+1;
-    msg.textContent = `${userName}, guess a number from 1 to ${level}`;
+    msg.textContent = userName+", guess a number from 1 to "+ level;
 }
 
 guessBtn.addEventListener("click", makeGuess);
@@ -74,7 +75,7 @@ function makeGuess(){
 
     if(diff === 0){
         let roundTime = (new Date().getTime() - roundStartTime)/1000;
-        msg.textContent = `${userName}, you got it yay! Score: ${score}. Time: ${roundTime.toFixed(1)}s`;
+        msg.textContent = userName+ ",you got it yay! Score:"+ score+". Time: "+roundTime.toFixed(1);
         giveFeedback(score);
         storeGame(roundTime);
         reset();
@@ -122,7 +123,7 @@ function updateScore(){
     for(let i=0; i<lb.length; i++){
         if(scoreArr[i]) lb[i].textContent = scoreArr[i];
     }
-    wins.textContent = `Total wins: ${scoreArr.length}`;
+    wins.textContent = "Total wins:" + scoreArr.length;
     let sum = scoreArr.reduce((a,b)=>a+b,0);
     avgScore.textContent = `Average Score: ${(sum/scoreArr.length).toFixed(2)}`;
 }
