@@ -10,26 +10,34 @@ let gameTimes = [];
 let guessBtn = document.getElementById("guessBtn");
 let giveUpBtn = document.getElementById("giveUp");
 let msg = document.getElementById("msg");
+let dateText = document.getElementById("date");
+
 let submitBtn = document.getElementById("submit");
 let userInput = document.getElementById("userName");
 
 guessBtn.disabled = true;
 giveUpBtn.disabled = true;
 
-function getTimeString(){
+function getTimeString() {
     let d = new Date();
-    let months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     let day = d.getDate();
-    let ending = "th";
-    if(day % 10 == 1 && day !== 11){
-        ending = "st";}
-    else if(day % 10 == 2 && day !== 12){
-        ending = "nd";}
-    else if(day % 10 == 3 && day !== 13){
-        ending = "rd";}
-    return `${months[d.getMonth()]} ${day}${suffix}, ${d.getFullYear()} ${h}:${m}:${s}`;
-}
+    let suffix = "th"; 
+    if (day % 10 == 1 && day !== 11) {
+        suffix = "st";
+    } else if (day % 10 == 2 && day !== 12) {
+        suffix = "nd";
+    } else if (day % 10 == 3 && day !== 13) {
+        suffix = "rd";
+    }
 
+    let h = d.getHours();
+    let m = d.getMinutes();
+    let s = d.getSeconds();
+
+    dateText.textContent = months[d.getMonth()] +" "+ day+suffix+" "+ d.getFullYear()+" "+h+":"+m+":"+s;
+}
+getTimeString()
 submitBtn.addEventListener("click", ()=>{
     let name1 = userInput.value;
     if(name1 == ""){
@@ -78,7 +86,7 @@ function makeGuess(){
 
     if(diff == 0){
         let totalRoundTime = (new Date().getTime() - roundStartingTime)/1000;
-        msg.textContent = userName+ ",you got it yay! Score:"+ score+". Time: "+totalRoundTime.toFixed(1);
+        msg.textContent = userName+ ", you got it yay! Score:"+ score+". Time: "+totalRoundTime.toFixed(1);
         giveFeedback(score);
         storeGame(totalRoundTime);
         reset();
@@ -90,7 +98,7 @@ function makeGuess(){
     else{ 
         hint += " its Cold";}
 
-    msg.textContent = userName + hint;
+    msg.textContent = hint;
 }
 
 giveUpBtn.addEventListener("click", ()=>{
@@ -146,8 +154,8 @@ function updateTimeStats(){
 
 function giveFeedback(score){
     let feedback = "";
-    if(score <= level/3) feedback = "Excellent!";
-    else if(score <= level*2/3) feedback = "OK!";
-    else feedback = "Needs improvement and you could solve faster.";
+    if(score <= level/3) feedback = " . Your feedback: Excellent!";
+    else if(score <= level*2/3) feedback = " . Your feedback: OK!";
+    else feedback = " . Your feedback: Needs improvement and you could solve faster.";
     msg.textContent += feedback;
 }
