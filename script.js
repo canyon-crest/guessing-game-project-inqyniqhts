@@ -35,9 +35,13 @@ function getTimeString() {
     let m = d.getMinutes();
     let s = d.getSeconds();
 
-    dateText.textContent = months[d.getMonth()] +" "+ day+suffix+" "+ d.getFullYear()+" "+h+":"+m+":"+s;
+    dateText.textContent = "Current date: "+months[d.getMonth()] +" "+ day+suffix+" "+ d.getFullYear()+" "+h+":"+m+":"+s;
 }
 getTimeString()
+setInterval(getTimeString, 1000);
+
+
+
 submitBtn.addEventListener("click", ()=>{
     let name1 = userInput.value;
     if(name1 == ""){
